@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="reply">
+	
+	<!-- 댓글 쓰기 -->
+	<insert id="insertReply">
+		insert into reply
+		(rno,bno,replytext,replyer,secret_reply) values
+		(reply_seq.nextval, #{bno}, #{replytext}, #{replyer}, #{secret_reply})
+	</insert>
+	
+	<!-- 댓글 수 가져오기 -->
+	<select id="count" resultType="int">
+		select count(*) from reply where bno=#{bno}
+	</select>
+	
+	<select id="listReply"
+	resultType="com.bellus.web.model.board.dto.ReplyDTO">
+		<include refid="paging_header"/>
+		select rno, bno, replytext, replyer, name, r.regdate, r.updatedate, secret_reply,
+			(select writer from board where bno=r.bno) writer
+			from reply r, (select * from member union select * from admin) m
+			where r.replyer= m.userid and bno = #{bno}
+			order by rno desc
+		<include refid="paging_footer" />
+			
+	</select>
+	<sql id="paging_header">
+		select *
+		from ( 
+			select rownum as rn, A.*
+			from (
+	</sql>
+	<sql id="paging_footer">
+		) A
+	) where rn between #{start} and #{end}
+	</sql>
+	
+	<!-- 댓글 상세보기 -->
+	 <select id="detailReply" resultType="com.bellus.web.model.board.dto.ReplyDTO">
+    	SELECT rno,bno,replytext,replyer,regdate,updatedate,secret_reply
+    	FROM reply
+    	WHERE rno=#{rno}
+    </select>
+    
+    <!-- 댓글 수정 -->
+    <select id="updateReply">
+    	UPDATE reply
+    	set replytext=#{replytext} , updatedate = sysdate
+    	where rno = #{rno}
+    </select>
+    
+    <!-- 댓글 삭제 -->
+	<delete id="deleteReply">
+		delete from reply where rno = #{rno}
+	</delete>
+
+</mapper>

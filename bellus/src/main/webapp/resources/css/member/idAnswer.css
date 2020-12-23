@@ -1,0 +1,121 @@
+
+
+:root{
+    --input-color: rgba(37, 202, 231, 0.253);
+    --font-color: #333;
+    --login-button: rgba(235, 68, 26, 0.815);
+    --login-background: #fff;
+    --input-focus: rgba(43, 211, 37, 0.877);
+}
+
+.idAnswer-wrapper
+{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    
+}
+.idAnswer-content {
+    background-color : var(--login-background);
+    border-radius: 10px;
+    width: 100%;
+    max-width : 500px;
+    min-width : 500px;
+    
+}
+
+
+.content header{
+    text-align: center;
+}
+.content header h1{margin-top : 0;font-size: 230%;}
+
+
+#ID-find-label
+{
+    font-weight : bold;
+    border-bottom : 1px solid black;
+    margin-bottom: 10px;
+    padding : 10px;
+    margin-top : 10px;
+    margin-bottom : 20px;
+}
+
+#description{padding :10px;margin-bottom : 10px;}
+
+.content .ID-find-form{
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border : 1px solid rgba(128, 128, 128, 0.445);
+}
+
+
+.input-group{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-bottom : 30px;
+    width: 100%;
+    max-width: 310px;
+}
+
+.input-group span{
+    text-align: center;
+    margin-top: 15px;
+    padding: 15px;
+    font-size: 16px;
+    border : solid 1px var(--input-color);
+    border-radius: 50px;
+    background-color : var(--input-color);
+}
+.input-group input:focus
+{outline : 0;border :solid 2px var(--input-focus);}
+
+.input-group .alert
+{
+    color : red;
+    padding-left: 15px;
+}
+.input-group .success
+{
+    color : green;
+    padding-left: 15px;
+}
+
+#resultId{font-family : "Arial";}
+
+.buttons
+{
+    display : flex;
+    justify-content: center;
+    width : 100%;
+    max-width: 310px;
+    margin-top: 30px;
+    
+}
+
+.buttons a {
+    padding: 15px;
+    margin : 0 6px 50px 6px;
+    border : unset;
+    background : transparent;
+    border-radius : 50px;
+    color : white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    background-color :  var(--login-button);
+    width : 100%;
+    text-align: center;
+    
+}
+
+
+
+
+

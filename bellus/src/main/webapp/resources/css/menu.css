@@ -1,0 +1,20 @@
+
+.menu-Wrapper
+{
+    display :flex;
+    justify-content: center;  
+}
+
+.menu-Content{ width: 900px;}
+
+.menu-Wrapper header{margin: 40px 0 20px 20px; /* 상우하좌 */}
+
+/* 가운데 정렬 */
+#menu
+{
+    display : flex;
+    justify-content: center;
+    margin : 40px ;
+    width: 100%;
+    
+}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="member">
+	<select id="login_check" resultType="String">
+		select name from member
+		where userid=#{userid} and passwd=#{passwd}
+	</select>
+	
+	<select id="admin_check" resultType="String">
+		select username from admin
+		where userid=#{userid} and passwd=#{passwd}
+	</select>
+	
+	<select id="idCheck"  resultType="int" parameterType="String">
+		select count(userid) from member where userid=#{userid}
+	</select>
+	
+	<!-- email 중복체크 -->
+	<select id="email_Check" resultType="int" parameterType="String">
+		select count(email) from member where email=#{email}
+	</select>
+	
+	<!-- 회원테이블에 회원정보 추가 -->
+	<insert id="insert">
+		insert into member (userid, passwd, name, email, join_date) 
+		values(#{userid}, #{passwd}, #{name}, #{email}, sysdate)
+	</insert>
+	
+	<select id="idSearch" resultType="String">
+		select userid from member where name=#{name} and email=#{email}
+	</select>
+	
+	<select id="pwSearch" resultType="int">
+		select count(passwd) from member where userid= #{userid} and email= #{email}
+	</select>
+	
+	<update id="update">
+		update member set passwd = #{passwd} where userid = #{userid}
+	</update>
+	
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="view">
+	<select id="listAll" resultType="com.bellus.web.model.view.dto.ViewDTO">
+		select * from pikicast order by pnum
+	</select>
+	
+	<!-- 피키캐스트 상세보기 -->
+	 <select id="detail" resultType="com.bellus.web.model.view.dto.ViewDTO">
+    	SELECT * FROM pikicast
+    	WHERE pnum=#{pnum}
+    </select>
+	
+	<!-- 피키캐스트 수정하기 -->
+    <update id="update">
+        update pikicast
+        set imagepath=#{imagepath}, figcaption=#{figcaption}
+        where pnum=#{pnum}
+    </update>
+    
+    <!-- 피키캐스트 로우 삭제하기 -->
+    <delete id="delete">
+    	delete from pikicast
+    	where pnum=#{pnum}
+    </delete>
+    
+    <!-- 피키캐스트 로우 추가하기 -->
+    <insert id="insert" parameterType="com.bellus.web.model.view.dto.ViewDTO">
+    	
+    	insert into pikicast (pnum, imagepath, figcaption) values(seq_pikicast.nextval,#{imagepath},#{figcaption,jdbcType=VARCHAR})
+    </insert>
+    
+    
+    
+</mapper>

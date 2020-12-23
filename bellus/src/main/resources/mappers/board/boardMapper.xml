@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="board">
+	<!-- 글쓰기 목록 보기 (쿼리끝에 세미콜론 빠졌는지 확인)-->
+	<select id="listAll"
+					resultType="com.bellus.web.model.board.dto.BoardDTO">
+    <!-- 결과는 boardDTO타입이 된다. -->
+ 
+        <include refid="paging_header" />
+ 
+    <!-- ref는 다른테이블을 의미한다. -->
+    <!-- 번호, 제목, 작성자, 이름, 날짜, 조회수 , 그리고 댓글의 갯수를 검색 -->
+    <!-- board 테이블과 member 테이블로 부터 검색 -->
+            select bno, title, writer, name, regdate, viewcnt , updatedate,
+            (select count(*) from reply where bno=b.bno ) cnt                     
+            from board b, (select * from member union select * from admin) m
+ 	
+    <!-- bno의 내림차순으로 검색 -->
+            <include refid="search" />
+            order by bno desc   
+        <include refid="paging_footer" />
+    </select>
+ 
+    <sql id="paging_header">
+<!-- 게시물을 한페이지에 10개씩 볼 수 있게하는 쿼리 윗부분-->
+        select *
+        from (
+            select rownum as rn, A.*
+            from (    
+    </sql>
+    
+    <sql id="paging_footer">
+<!-- 게시물을 한페이지에 10개씩 볼 수 있게하는 쿼리  아랫 부분-->
+    <!-- 새로 매겨진 일련번호 1~10번 글까지 1페이지 -->
+    <!-- 11~20번 글까지 2페이지.. -->
+            ) A
+        ) where rn between #{start} and #{end}    
+    </sql>
+    
+    <!-- mybatis 조건문의 변수명에는 #을 사용하지 않음 (자주 바뀌지 않거나 사용자의 입력을 받는 경우가 아닐 때이므로) -->
+    <sql id="search">
+    	<choose>
+    		<when test="search_option == 'all'">
+    			where
+    				b.writer=m.userid
+    				and
+    				( writer like '%'||#{keyword}||'%'
+    				 or content like '%'||#{keyword}||'%'
+    				 	or title like '%'||#{keyword}||'%' )
+    		</when>	
+	    	<otherwise>
+	    		where b.writer=m.userid and
+	    		${search_option} like
+	    			'%'||#{keyword}||'%'
+	    	</otherwise>
+    	</choose>
+    </sql>
+	 
+	<select id="countArticle" resultType="int">
+		select count(*)
+		from board b, (select * from member union select * from admin) m
+		<include refid="search" />
+	</select>
+	
+	<!-- 글목록에서 글 클릭시 해당글에 대한 detail 가져옴 -->
+	<select id="detail" resultType="com.bellus.web.model.board.dto.BoardDTO">
+		select bno,title,content,regdate,viewcnt,name,writer
+		from board b, (select * from member union select * from admin) m
+		where b.writer=m.userid and bno=#{bno}
+		
+	</select>
+	
+	
+	<!-- 게시물 내용 수정 -->
+    <!-- 게시글의 내용 수정, 게시글 번호가 맞으면 제목과 내용을 입력한 대로 수정해서 갱신함 -->
+    <update id="update">
+        update board
+        set title=#{title}, content=#{content} , updatedate = sysdate
+        where bno=#{bno}
+    </update>
+    
+    <!-- 새로운 첨부파일 추가 -->    
+    <!-- attach테이블에 입력받은 파일이름과 게시글 번호를 삽입한다 -->
+    <insert id="updateAttach">
+        insert into attach (fullName, bno) values
+        ( #{fullName}, #{bno} )
+    </insert>
+    
+     <!-- 첨부파일 목록 가져오기 -->
+    <!-- 결과타입은 필드가 1개이므로 String이다. -->
+    <!-- attach 테이블에서 첨부파일이름을 검색 (단, 글번호가 내가 선택한 글번호여야됨) --> 
+    <!-- 그리고 날짜의 내림차순으로 정렬시킨다. -->
+    <select id="getAttach"  resultType="String"> 
+        select fullName
+        from attach
+        where bno=#{bno}
+        order by regdate desc    
+    </select>
+	
+	<!-- 첨부파일 레코드 삭제 -->
+    <delete id="deleteAttach">
+        delete from attach
+        where fullName=#{fullName}
+    </delete>
+	
+	<!-- 게시판 글쓰기 DTO로 받아왓으니 올라갈때도 dto에 저장되어감-->
+	<insert id="insert">
+		<selectKey keyProperty="bno" resultType="Integer" order="AFTER">
+			select seq_board.currval from dual 
+		</selectKey>
+		insert into board (bno,title,content,writer) values
+		(seq_board.nextval, #{title}, #{content}, #{writer}) 
+		<!-- insert into board (bno,title,content,writer) values
+		(seq_board.nextval, #{title}, #{content}, #{writer})  -->
+		
+	</insert>
+	
+	<!-- 첨부파일 정보 저장 -->
+	<!-- attach 테이블에 파일이름(입력받은 파일이름) 과 , 게시글 번호(게시판 테이블에 추가된 번호- 방금 추가된것)를 추가 해준다. -->
+	<!-- seq_board.currval은 board테이블의 시퀀스 현재 값 -->
+	<insert id="addAttach" parameterType="java.util.HashMap">
+		<!-- insert into attach (fullName, bno) values (#{fullName}, (select * from (select max(bno) from board) next))  -->
+		insert into attach (fullName, bno) values
+		( #{fullName}, #{bno} ) 
+	</insert>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteArticle">
+		delete from board where bno=#{bno}
+	</delete>
+	
+	<!-- 조회수 증가 -->
+	<update id="increaseViewcnt">
+		update board
+		set viewcnt = viewcnt + 1
+		where bno=#{bno} 
+	</update>
+
+</mapper>

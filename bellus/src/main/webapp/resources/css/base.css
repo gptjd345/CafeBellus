@@ -1,0 +1,95 @@
+:root{
+    --a-color: #fff;
+    --font-color: #333;
+    --nav-background: #534847;
+    --base-background: blanchedalmond;
+    --navbar-logo: #FADAD8;
+    --navbar-logo-hover: #D09E88;
+    --navbar-toggle: #FADAD8;
+  
+}
+
+body
+{
+    margin : 0;
+    font-family : Cinzel Decorative;
+    background-color: var(--base-background);
+}
+
+a {text-decoration: none; color : var(--a-color); }
+
+.navbar
+{
+    display : flex;
+    justify-content : space-between;
+    align-items: center;
+    background-color : var(--nav-background);
+    font-size : 24px;
+    padding: 8px 30px;
+}
+
+.navbar__logo > i { color : var(--navbar-logo); }
+
+.navbar__menu { display : flex;list-style : none;padding-left: 0; }
+
+.navbar__menu li { padding: 8px 20px; }
+
+.navbar__menu li:hover { background-color: var(--navbar-logo-hover); border-radius: 4px; }
+
+.navbar__icons { display : flex; list-style: none; color : white; padding-left: 0; }
+
+.navbar__icons li { padding : 8px 12px; }
+
+.navbar__toggleBtn {display : none;position: absolute;right : 32px;font-size : 24px;color: var(--navbar-toggle); }
+
+#logout{ color : #c0c0c0; font-family:'arial'; font-size: 18px;}
+
+#footer 
+{
+    margin-top: 50px;
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+@media screen and (max-width:1240px)
+{
+    .navbar {
+        flex-direction: column;
+        align-items : flex-start;
+        padding: 8px 24px;
+    }
+
+    .navbar__menu {
+        display : none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+       
+    }
+
+    .navbar__menu li
+    {
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar__icons
+    {
+        display : none;
+        justify-content: center;
+        width : 100%;
+        
+    }
+
+    .navbar__toggleBtn
+    {
+        display : block;
+    }
+
+    .navbar__menu.active,
+    .navbar__icons.active
+    {
+        display: flex;
+    }
+
+}

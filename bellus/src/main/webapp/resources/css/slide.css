@@ -1,0 +1,15 @@
+
+.image__slide { position : relative; border: solid 1px black; width : 70%; margin:60px auto; }
+.image__slide button 
+{
+    position: absolute; z-index: 10; top: 70%; transform:translateY(-50%);
+    width:60px; height: 60px; border-radius: 100%; background:rgba(0, 0, 0, 0); border:none;
+}
+.image__slide button::before { font-family: "Font Awesome 5 Free"; color:rgba(247, 240, 227, 0.5); font-size:50px; font-weight: 900; }
+.image__slide button.slick-prev { left: 10px; font-size : 0; color:transparent; }
+.image__slide button.slick-prev::before { content: "\f137"; }
+.image__slide button.slick-next { right: 10px; font-size : 0; color:transparent;}
+.image__slide button.slick-next::before { content: "\f138"; }
+.image__slide div { height : 500px;}
+.image__slide img { height : 100%;  width : 100%; }
+

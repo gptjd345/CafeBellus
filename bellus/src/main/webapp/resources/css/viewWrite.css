@@ -1,0 +1,4 @@
+#UploadContainer{border :solid 2px gray; margin-top: 30px; padding: 30px;}
+#UploadContainer form{display: flex; flex-direction: column;}
+#figcaption{width : 400px; height : 100px;}
+/*#btns{text-align: right;}*/

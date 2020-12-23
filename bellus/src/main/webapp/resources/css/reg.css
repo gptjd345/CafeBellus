@@ -1,0 +1,64 @@
+@import url('./base.css');
+
+.navbar__menu li:nth-child(4) {background-color: #D09E88; border-radius: 4px;}
+
+.reg-form{display: flex; flex-direction: column; justify-content: center; align-items: center;}
+.title{font-size: 24px; margin-top : 30px;}
+table
+{
+    /* border: 1px solid red; */
+    margin: auto;
+    border-collapse: collapse;
+    width: 900px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+th{
+    background-color: #9b828194;
+}
+
+td,th{padding:5px; border-bottom: 1px solid gray; text-align: center;}
+td {text-align: left;}
+td input {padding: 5px; margin: 5px 0 5px 15px; font: 16px; width: 300px;}
+.content{margin: 15px 0; font-size: 16px; padding: 20px;}
+
+td a
+{
+    color : black;
+}
+
+.content
+{
+    min-width : 900px;
+    min-height : 540px;
+    max-width : 900px;
+    max-height : 540px;
+}
+.reg-buttons
+{
+    text-align : center;
+    
+}
+.register {margin-right : 20px; margin-top : 20px;}
+.register , .cancel 
+{
+    text-align : center;
+    background-color: green; padding :2px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: whitesmoke;
+    border-bottom: 3px solid rgb(1, 85, 1);
+    border-right: 3px solid rgb(1, 85, 1);
+    cursor: pointer;
+    
+}
+
+
+#selected
+{
+    color :#D09E88;
+    border : 1px solid rgba(128, 128, 128, 0.397);
+    margin : 2px;
+    padding :4px;
+}
+
+

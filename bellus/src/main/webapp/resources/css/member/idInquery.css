@@ -1,0 +1,121 @@
+
+
+:root{
+    --input-color: rgba(37, 202, 231, 0.253);
+    --font-color: #333;
+    --login-button: rgba(235, 68, 26, 0.815);
+    --login-background: #fff;
+    --input-focus: rgba(43, 211, 37, 0.877);
+}
+
+.wrapper
+{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    
+}
+.content {
+    background-color : var(--login-background);
+    border-radius: 10px;
+    width: 100%;
+    max-width : 500px;
+    min-width : 500px;
+    margin-top: 40px;
+    padding : 30px 60px 50px 60px;
+}
+
+.content button {
+    padding: 15px;
+    margin-top : 15px;
+    width : 100%;
+    border : unset;
+    background : transparent;
+    border-radius : 50px;
+    color : white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    background-color :  var(--login-button);
+    
+}
+.content header{
+    text-align: center;
+}
+.content header h1{
+    margin-top : 0;
+    font-size: 230%;
+}
+
+.inquery{ background-color : #534847de; margin: 0 0 15px 0; border-radius: 10px; padding :20px;}
+
+.inquery a
+{font-size : 15px;padding: 10px;}
+#idInquery{background-color : #D09E88;border-radius: 4px;}
+
+
+#choice-box
+{
+    font-weight : bold;
+    border-bottom : 1px solid black;
+    margin-bottom: 10px;
+    padding : 10px;
+    margin-top : 10px;
+    margin-bottom : 20px;
+}
+
+#description{padding :10px;margin-bottom : 10px;}
+
+.content .idInquery-form{
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border : 1px solid rgba(128, 128, 128, 0.445);
+}
+
+.idInquery-form .input-group{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    width: 100%;
+    max-width: 310px;
+}
+
+.input-group label{
+    padding : 15px 15px 5px 15px;
+    font-size: 16px;
+}
+
+.input-group input{
+    padding: 15px;
+    font-size: 16px;
+    border : solid 1px var(--input-color);
+    border-radius: 50px;
+    background-color : var(--input-color);
+}
+.input-group input:focus
+{outline : 0;border :solid 2px var(--input-focus);}
+
+.input-group:first-child
+{margin-top: 50px;}
+
+.input-group:last-child
+{margin-top: 50px; margin-bottom: 50px;}
+
+.input-group .alert
+{
+    color : red;
+    padding-left: 15px;
+}
+.input-group .success
+{
+    color : green;
+    padding-left: 15px;
+}
+
+
+
