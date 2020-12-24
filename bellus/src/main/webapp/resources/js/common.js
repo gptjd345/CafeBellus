@@ -47,12 +47,12 @@ function getFileInfo(fullName) {
         console.log(getLink);
         }
 
-        // 목록에 출력할 원본파일명
-        fileName = fileLink.substr(fileLink.indexOf("_")+1);
-        console.log(fileName);
-        // { 변수:값 } json 객체 리턴
-        return {fileName:fileName, imgsrc:imgsrc, getLink:getLink, fullName:fullName};
-    }
+    // 목록에 출력할 원본파일명
+    fileName = fileLink.substr(fileLink.indexOf("_")+1);
+    console.log(fileName);
+    // { 변수:값 } json 객체 리턴
+    return {fileName:fileName, imgsrc:imgsrc, getLink:getLink, fullName:fullName};
+}
 
             
         

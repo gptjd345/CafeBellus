@@ -72,31 +72,26 @@ public class AjaxUploadController {
             String formatName = fileName.substring(
                     fileName.lastIndexOf(".") + 1);
             MediaType mType = MediaUtils.getMediaType(formatName);
+            System.out.println("formatName : "+formatName);
             // 헤더 구성 객체
             HttpHeaders headers = new HttpHeaders();
             // InputStream 생성
             in = new FileInputStream(uploadPath + fileName);
-//            if (mType != null) { // 이미지 파일이면
-//                headers.setContentType(mType);
-//            } else { // 이미지가 아니면
-//                fileName = fileName.substring(
-//                        fileName.indexOf("_") + 1);
+            if (mType != null) { // 이미지 파일이면
+            	headers.setContentType(mType);
+            } else { // 이미지가 아니면               
                 // 다운로드용 컨텐트 타입 표준으로 정의되어있지 않은 파일(이미지가 아닌것들을)바이너리로 받아오겠습니다.
                 headers.setContentType(
                         MediaType.APPLICATION_OCTET_STREAM);
+            }
                 // 큰 따옴표 내부에 " \" "
-                // 바이트배열을 스트링으로
-                // iso-8859-1 서유럽언어
-                // new String(fileName.getBytes("utf-8"),"iso-8859-1")
                 // Content-Disposition은 브라우저에서 다운도르창을 띄우는 역할을 하며 뒤에 파라미터를 통해 이름과 확장자를 지정한다.
-                // 파일이름을 utf-8로 받아온후 그것을 다시 톰켓이 이해할수 있도록 톰켓에서 사용하는 iso-8859-1로 변환해서 전달한다.
+                // filename속성에 값을 지정할때는 아스키코드로된 문자열을 넣어야한다. 이때 톰켓이 HttpResponse 메시지를 만들어주므로 헤더 정보 조작시 iso-8859-1인코딩 방식으로 사용해야한다. 
+                // 파일이름이 한글일 경우 깨지지 않게 일단 바이트 배열(utf-8)로 받아온후 그것을 다시 톰켓이 이해할수 있도록 톰켓에서 사용하는 iso-8859-1로 변환해서 전달한다.
                 headers.add("Content-Disposition",
                         "attachment; filename=\"" 
-                                + new String(
-fileName.getBytes("utf-8"), "iso-8859-1") + "\""); 
-                // headers.add("Content-Disposition" 
-                // ,"attachment; filename='"+fileName+"'");
-//            }
+                                + new String(fileName.getBytes("utf-8"), "iso-8859-1") + "\""); 
+                
             //inputStream은 데이터를 바이트 단위로 읽어들인다. inputStream에 있는 데이터를 바이트 배열로 받으려면 
             //commons.io에서 제공하는 클래스의 메소드 IOUtils.toByteArray()를 사용한다. entity는 바이트배열과 헤더, 상태코드 정보를 가진다.
             entity = new ResponseEntity<byte[]>(
