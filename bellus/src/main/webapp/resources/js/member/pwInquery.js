@@ -4,10 +4,10 @@ var idValidate = function(){
     
     var IdCheck = RegExp(/^[a-zA-Z0-9]{5,20}$/);
     
-    if(!IdCheck.test(ID))
+    if(!ID)
     { 
-        $('#userid').nextAll("*").remove();
-        $('#userid').after('<span class="alert">5~20자의 영문 대소문자, 숫자, 사용가능합니다.</span>');
+       	$('#userid').nextAll("*").remove();
+        $('#userid').after('<span class="alert">아이디를 입력해주세요!</span>');
     }
     else{
         $('#userid').nextAll("*").remove();
@@ -62,7 +62,6 @@ $('body').on('click','#pwInquery-submit',function(e)
                 data : data,
                 dataType: 'text',
                 success: function(result){
-                	alert(result);
                     $("#next").html(result);
                     $("#prev").css("display","none");
                   

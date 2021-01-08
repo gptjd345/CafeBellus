@@ -69,7 +69,7 @@ $('body').on('click','#success-submit',function(e)
                 data : data,
                 dataType: 'text',
                 success: function(result){
-                	
+                	alert("비밀번호가 재설정 되었습니다.");
                     window.location.replace('/member/login.do');
                   
                 }

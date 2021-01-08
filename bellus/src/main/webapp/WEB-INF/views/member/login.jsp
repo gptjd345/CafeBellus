@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/resources/css/login.css">
 
 <!-- 로그인 버튼 클릭시 처리 -->
-<script type="text/javascript" src="/resources/js/login.js" defer></script>
+<script type="text/javascript" src="/resources/js/member/login.js" defer></script>
 <title>Insert title here</title>
 </head>
 <body>

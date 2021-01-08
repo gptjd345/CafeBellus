@@ -180,7 +180,6 @@ $('body').on('click','#sign-up-btn',function(e)
        contentType : 'application/json',
        success: function(result)
        {
-           alert(result);
            alert("회원가입되었습니다.");
            window.location.replace('/member/login.do');
                
@@ -188,7 +187,6 @@ $('body').on('click','#sign-up-btn',function(e)
              
   			});
 	}else{
-		alert($('.success').length);
-		alert($('.alert').length);
+		alert("입력한 내용을 확인하세요!");
 	}
 });

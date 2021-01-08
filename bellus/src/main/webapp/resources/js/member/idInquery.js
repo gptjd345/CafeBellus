@@ -60,9 +60,8 @@ $('body').on('click','#form-submit',function(e)
     
 	if($('.success').length != 2)
 	{
-		alert("필수데이터를 입력하세요!");
-		alert($('.success').length);
-		alert($('.alert').length);
+		alert("이름과 이메일을 확인해주세요!!!");
+		
 	}
 	else
 		{
@@ -74,7 +73,7 @@ $('body').on('click','#form-submit',function(e)
                 data : data,
                 dataType: 'text',
                 success: function(result){
-                	alert(result);
+                
                     $("#next").html(result);
                     $("#prev").css("display","none");
                   
