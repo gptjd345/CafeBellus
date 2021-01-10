@@ -9,13 +9,15 @@
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 	
+	<!-- config 파일 자동 로드 location="classpath:database.properties" -->
+	<context:property-placeholder location="/config/*.properties"/>	
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-			<property name="url" value="jdbc:oracle:thin:@localhost:1521/xe" />
-			<property name="username" value="web" />
-			<property name="password" value="1234" />
+			<property name="driverClassName" value="${spring.datasource.driverClassName}" />
+			<property name="url" value="${spring.datasource.url}" />
+			<property name="username" value="${spring.datasource.username}" />
+			<property name="password" value="${spring.datasource.password}" />
 	</bean>
 	
 	 <!-- Mybatis에서 SqlSession을 사용하기위한 SqlSessionFactory 객체 생성 -->
