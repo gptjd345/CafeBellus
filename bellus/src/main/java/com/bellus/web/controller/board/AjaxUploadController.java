@@ -122,7 +122,7 @@ public class AjaxUploadController {
             //썸네일 이미지가 아닌 원본 이미지를 삭제하기위해 이름에서 s_부분을 지워야하기 때문에 이렇게 함
         	String front=fileName.substring(0, 12);
             String end=fileName.substring(14);
-//         File.separatorChar : 유닉스 / 윈도우즈\\    
+//         File.separatorChar : 유닉스 / 윈도우즈\\   
             new File(uploadPath+(front+end).replace('/',File.separatorChar)).delete();
         }
         //원본 파일 삭제(이미지이면 썸네일 삭제)

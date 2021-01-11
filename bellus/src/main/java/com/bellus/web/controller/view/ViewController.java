@@ -53,7 +53,7 @@ public class ViewController {
 	@RequestMapping("imageInsert.do")
 	public String imageInsert(
 			@RequestParam MultipartFile uploadImage,
-			@ModelAttribute ViewDTO dto)  
+			@ModelAttribute ViewDTO dto, HttpServletRequest request)  
 				throws Exception {
 		
 		//이미지를 올리지 않은 경우
@@ -62,7 +62,7 @@ public class ViewController {
 			return "noImage";
 		}else {
 			//배포디렉토리에 이미지를 업로드 한다.
-			String filePath = PikiUploadFileUtils.pikiUpload(uploadImage);
+			String filePath = PikiUploadFileUtils.pikiUpload(uploadImage, request);
 			//imagepath 저장
 			dto.setImagepath(filePath);
 			System.out.println("filePath: "+dto.getImagepath());
@@ -92,18 +92,18 @@ public class ViewController {
 	@RequestMapping("imageUpdate.do")
 	public void imageUpload(
 			@RequestParam MultipartFile uploadImage,
-			@ModelAttribute ViewDTO dto)  
+			@ModelAttribute ViewDTO dto, HttpServletRequest request)  
 				throws Exception {
 		
 		//이미지 파일을 수정한경우 기존이미지는 배포디렉토리에서 삭제 
 		if(uploadImage.getSize() != 0)
 		{
-			String filePath = PikiUploadFileUtils.pikiUpload(uploadImage);
+			String filePath = PikiUploadFileUtils.pikiUpload(uploadImage,request);
 			ViewDTO prevDTO = viewService.detail(dto.getPnum());
 			String prevFilePath = prevDTO.getImagepath();
 			
 			//filePath에서 앞에 /resources/img/2020/12/14/ 총 26글자 빼면 파일 명이 됨
-			PikiUploadFileUtils.deleteFile(prevFilePath);
+			PikiUploadFileUtils.deleteFile(prevFilePath,request);
 			
 			//imagepath 저장
 			dto.setImagepath(filePath);
@@ -116,7 +116,7 @@ public class ViewController {
 	@ResponseBody
 	@RequestMapping("imageDelete.do")
 	public void imageDelete(
-			@ModelAttribute ViewDTO dto) throws Exception {
+			@ModelAttribute ViewDTO dto, HttpServletRequest request) throws Exception {
 		
 		//폼에서 넘어온 이미지번호를 이용하여 이미지 path 정보를 가져온다.
 		ViewDTO viewDTO = viewService.detail(dto.getPnum());
@@ -124,7 +124,7 @@ public class ViewController {
 		//만약 pikicast 테이블의 imagepath 필드가 null 일경우 테이블의 내용만 삭제
 		if(viewDTO.getImagepath() != "" && viewDTO.getImagepath() != null )
 		{
-			PikiUploadFileUtils.deleteFile(viewDTO.getImagepath());
+			PikiUploadFileUtils.deleteFile(viewDTO.getImagepath(),request);
 		}
 		
 		//이미지 번호를 이용하여 pikicast 테이블의 해당 로우 삭제 

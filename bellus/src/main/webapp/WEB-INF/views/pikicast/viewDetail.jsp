@@ -79,7 +79,9 @@ $('#pikiDelete').click(function(){
             <form action="" method="post" enctype="multipart/form-data" id='piki-updateForm'>
                 <input type="file" name="uploadImage">
            		<input type="hidden" name="pnum" value="${dto.pnum}">
-	            <textarea name="figcaption" id="figcaption" >"${dto.figcaption}"</textarea>
+	            <!-- XML 마크업 문자로 인식될 문자열을 삭제한다. 오라클데이터 베이스에서 빈문자열은 ""로저장되므로 가져올때 ""를 제거해준다. -->
+	            <c:set var="fig" value='${fn:escapeXml(dto.figcaption)}'/>
+	            <textarea name="figcaption" id="figcaption" >${fig}</textarea>
 	            <div id="btns">
 	                <input type="button" id="pikiUpdate" value="수정">
 	                <button type="button" id="pikiDelete" >삭제</button>

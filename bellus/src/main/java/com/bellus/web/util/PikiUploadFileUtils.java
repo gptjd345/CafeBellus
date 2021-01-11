@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
@@ -22,12 +23,25 @@ import com.bellus.web.util.UploadFileUtils;
 
 public class PikiUploadFileUtils {
 	 //이미지를 업로드할 디렉토리(배포 경로로 설정한다.)
-	static String uploadPath = "D:\\springMVC\\.metadata\\.plugins\\org.eclipse.wst.server.core"
-	+ "\\tmp0\\wtpwebapps\\bellus\\CafeBellus\\Views\\";
+//	static String uploadPath = "D:\\springMVC\\.metadata\\.plugins\\org.eclipse.wst.server.core"
+//	+ "\\tmp0\\wtpwebapps\\bellus\\CafeBellus\\Views\\";
+	
 	
 	//static으로 선언해야 스프링 컨트롤러에서 사용가능
-	public static String pikiUpload(MultipartFile uploadImage) throws Exception
+	public static String pikiUpload(MultipartFile uploadImage,HttpServletRequest request) throws Exception
 	{
+		String uploadPath;
+		//만약 운영체제가 윈도우라면
+		if(File.separatorChar == '\\')
+		{
+			//상대 경로로 경로 설정하기
+			ServletContext context = request.getSession().getServletContext();
+			uploadPath = context.getRealPath("/CafeBellus/Views/");
+		}
+		//윈도우가 아니라면 서버 리눅스 
+		else {
+			uploadPath = "/CafeBellus/Views/";
+		}
 		//http body
 		//업로드한 파일 이름
 		String fileName = uploadImage.getOriginalFilename();
@@ -114,10 +128,22 @@ public class PikiUploadFileUtils {
 	 
 	 
 		//삭제
-		//fileName에는 이미지 파일의 경우 원본 파일 이름이 넘어옴 /resources/img/2020/12/14/image이름.png 이런식으로 넘어옴
-	    static public void deleteFile(String filePath){
-	        
-	    	filePath = filePath.substring(15);
+		//fileName에는 이미지 파일의 경우 원본 파일 이름이 넘어옴 /CafeBellus/Views/2020/12/14/image이름.png 이런식으로 넘어옴
+	    static public void deleteFile(String filePath, HttpServletRequest request){
+	    	String uploadPath;
+			//만약 운영체제가 윈도우라면
+			if(File.separatorChar == '\\')
+			{
+				//상대 경로로 경로 설정하기
+				ServletContext context = request.getSession().getServletContext();
+				uploadPath = context.getRealPath("/CafeBellus/Views/");
+			}
+			//윈도우가 아니라면 서버 리눅스 
+			else {
+				uploadPath = "/CafeBellus/Views/";
+			}
+			
+	    	filePath = filePath.substring(18);
 	    	System.out.println("filePath: "+filePath);
 	       
 	        //원본 파일 삭제

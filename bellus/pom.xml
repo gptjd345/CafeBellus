@@ -21,7 +21,12 @@
 		    <version>2.8.2</version>
 		</dependency>
 		
-	
+		<!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
+		<dependency>
+		    <groupId>javax.annotation</groupId>
+		    <artifactId>javax.annotation-api</artifactId>
+		    <version>1.3.2</version>
+		</dependency>
 	
 		<!-- Google Chart -->
 		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
