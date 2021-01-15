@@ -1,6 +1,6 @@
 # ignore properties file #
 config.properties
 
-#sts
+#sts #
 target/
-/src/test/
+test/
