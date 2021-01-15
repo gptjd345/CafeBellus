@@ -1,6 +1,6 @@
-# ignore properties file
+# ignore properties file #
 config.properties
 
-### STS ###
-.test/
-.target/
+# STS #
+./test/
+./target/
