@@ -34,7 +34,7 @@ public class PikiUploadFileUtils {
 		//만약 운영체제가 윈도우라면
 		if(File.separatorChar == '\\')
 		{
-			//상대 경로로 경로 설정하기
+			//배포경로가 달라지더라도 상관없음
 			ServletContext context = request.getSession().getServletContext();
 			uploadPath = context.getRealPath("/CafeBellus/Views/");
 		}
@@ -47,11 +47,7 @@ public class PikiUploadFileUtils {
 		String fileName = uploadImage.getOriginalFilename();
 		//파일을 바이트 배열로 변환
 		byte[] fileData = uploadImage.getBytes();
-		
-		
-		// 폴더만들고 /2020/12/05/file명 이런식으로 날라옴
-//		String uploadedFileName = UploadFileUtils.uploadFile(uploadPath, fileName, bytes);
-		
+			
 		// uuid 발급, 랜덤한uuid를 만들어 uid에 저장
         UUID uid = UUID.randomUUID();
         
