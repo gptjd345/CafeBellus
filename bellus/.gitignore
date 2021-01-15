@@ -3,3 +3,4 @@ config.properties
 
 ### STS ###
 .test/
+.target/
