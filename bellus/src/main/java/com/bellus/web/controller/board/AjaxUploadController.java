@@ -5,10 +5,12 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,7 +35,15 @@ public class AjaxUploadController {
 	
 	//업로드 디렉토리 servlet-context.xml에 설정되어있음
 	/* @Resource(name = "uploadPath") 이게 안됨 왜안되는지 모르겟음*/
-	String uploadPath="d:\\upload\\temp";
+	//String uploadPath="d:\\upload\\temp";
+	
+	//업로드 경로를 uploadPath.properties 파일에서 받아옴
+	@Value("#{uploadPath['win.FileUploadPath']}")
+	String winFileUploadPath;
+	
+	@Value("#{uploadPath['ubuntu.FileUploadPath']}")
+	String ubuntuFileUploadPath;
+	
 	
 	// 파일첨부 페이지로 이동
     @RequestMapping(value = "/upload/uploadAjax", 
@@ -52,6 +62,17 @@ public class AjaxUploadController {
              +file.getOriginalFilename());
         logger.info("size:" +file.getSize());
         logger.info("contentType:" +file.getContentType());
+        
+        String uploadPath;
+        
+        //운영체제가 window이면 win.FileUploadPath를 사용
+        if(File.separatorChar == '\\')
+        {
+        	uploadPath = winFileUploadPath;
+        }
+        //운영체제가 Ubuntu이면 ubuntu.FileUploadPath
+        else { uploadPath = ubuntuFileUploadPath; }
+        
         // 업로드한 파일 정보와 Http 상태 코드를 함께 리턴
         return new ResponseEntity<String>(
                 UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes()), HttpStatus.OK);
@@ -63,6 +84,16 @@ public class AjaxUploadController {
     @RequestMapping("/upload/displayFile")
     public ResponseEntity<byte[]> displayFile(String fileName) 
             throws Exception {
+    	String uploadPath;
+        
+        //운영체제가 window이면 win.FileUploadPath를 사용
+        if(File.separatorChar == '\\')
+        {
+        	uploadPath = winFileUploadPath;
+        }
+        //운영체제가 Ubuntu이면 ubuntu.FileUploadPath
+        else { uploadPath = ubuntuFileUploadPath; }
+        
         // 서버의 파일을 다운로드하기 위한 스트림
         InputStream in = null; // java.io
         ResponseEntity<byte[]> entity = null;
@@ -111,8 +142,19 @@ public class AjaxUploadController {
     @RequestMapping(value="/upload/deleteFile"
         ,method=RequestMethod.POST)
     public ResponseEntity<String> deleteFile(String fileName){
-        logger.info("fileName:"+fileName); 
-        //fileName에는 이미지 파일의 경우 썸네일 파일 이름이 넘어옴
+    	logger.info("fileName:"+fileName); 
+        
+    	String uploadPath;
+        
+        //운영체제가 window이면 win.FileUploadPath를 사용
+        if(File.separatorChar == '\\')
+        {
+        	uploadPath = winFileUploadPath;
+        }
+        //운영체제가 Ubuntu이면 ubuntu.FileUploadPath
+        else { uploadPath = ubuntuFileUploadPath; }
+        
+    	//fileName에는 이미지 파일의 경우 썸네일 파일 이름이 넘어옴
         //확장자 검사
         String formatName=fileName.substring(
                 fileName.lastIndexOf(".")+1);
