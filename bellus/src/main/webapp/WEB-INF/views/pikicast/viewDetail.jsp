@@ -26,8 +26,7 @@ $('#pikiUpdate').click(function(){
 
     $.ajax({
         type : "POST",
-        url : "/view/imageUpdate.do",
-        
+        url : "/pikicast/imageUpdate.do",
         data : data,
         processData : false,
         contentType : false,
@@ -51,7 +50,7 @@ $('#pikiDelete').click(function(){
 
     $.ajax({
         type : "POST",
-        url : "/view/imageDelete.do",
+        url : "/pikicast/imageDelete.do",
         
         data : data,
         processData : false,

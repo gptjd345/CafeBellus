@@ -26,7 +26,7 @@ $('#pikiAdd').click(function(){
 
     $.ajax({
         type : "POST",
-        url : "/view/imageInsert.do",
+        url : "/pikicast/imageInsert.do",
         
         data : data,
         processData : false,

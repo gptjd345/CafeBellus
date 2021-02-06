@@ -61,7 +61,7 @@ public class UploadFileUtils {
             uploadedFileName = makeThumbnail(uploadPath
                     , savedPath, savedName);
             
-        } else {    //이미지 파일이 아니면 아이콘을 생성한다.
+        } else {    //이미지 파일이 아닌 경우 처음 넘겨받은 업로드 path를 제외한 /2020/12/05/file명 이런식으로 반환
             uploadedFileName = makeIcon(uploadPath, savedPath
                     , savedName);
         }
@@ -69,13 +69,12 @@ public class UploadFileUtils {
         return uploadedFileName;
     }
     
-    //아이콘 생성
+    // 이미지 파일이 아닌 경우 처음 넘겨받은 업로드 path를 제외한 /2020/12/05/file명 이런식으로 반환
     private static String makeIcon(String uploadPath
             , String path, String fileName) throws Exception {
-        // 아이콘의 이름
+
         String iconName = uploadPath + path + File.separator 
                 + fileName;
-        // 아이콘 이름을 리턴
         // File.separatorChar : 디렉토리 구분자
         // 윈도우 \ , 유닉스(리눅스) /
         return iconName.substring(uploadPath.length())

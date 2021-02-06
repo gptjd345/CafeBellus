@@ -28,55 +28,101 @@ public class PikiUploadFileUtils {
 	
 	
 	//static으로 선언해야 스프링 컨트롤러에서 사용가능
-	public static String pikiUpload(MultipartFile uploadImage,HttpServletRequest request) throws Exception
+//	public static String pikiUpload(MultipartFile uploadImage,HttpServletRequest request) throws Exception
+//	{
+//		String uploadPath;
+//		//만약 운영체제가 윈도우라면
+//		if(File.separatorChar == '\\')
+//		{
+//			//배포경로가 달라지더라도 상관없음
+//			ServletContext context = request.getSession().getServletContext();
+//			uploadPath = context.getRealPath("/CafeBellus/Views/");
+//		}
+//		//윈도우가 아니라면 서버 리눅스 
+//		else {
+//			uploadPath = "/CafeBellus/Views/";
+//		}
+//		//http body
+//		//업로드한 파일 이름
+//		String fileName = uploadImage.getOriginalFilename();
+//		//파일을 바이트 배열로 변환
+//		byte[] fileData = uploadImage.getBytes();
+//			
+//		// uuid 발급, 랜덤한uuid를 만들어 uid에 저장
+//        UUID uid = UUID.randomUUID();
+//        
+//        //uuid를 추가한 파일 이름
+//        String savedName = uid.toString() + "_" + fileName;
+//        
+//        // 업로드할 디렉토리 생성 (월, 일 날짜별로 디렉토리를 만든다.)
+//        // calcPath는 년도, 월, 일이 출력되게하는 메소드이고, 밑에서 static으로 선언되었으므로 메모리에 제일 처음 올려져 있다.
+//        // calcpath에 업로드 경로를 매개값으로 줘서, 업로드한 날짜를 savedPath에 저장하고, target변수에 File
+//        
+//        String savedPath = calcPath(uploadPath); //년월일로 만들어진 디렉토리경로
+//        System.out.println("savedPath: "+savedPath);
+//        File target = new File(uploadPath 
+//                + savedPath, savedName);    //업로드경로와 저장경로에 저장한파일의 이름에 대한 File 객체를 생성한다.
+//        
+//        // 임시 디렉토리에 업로드된 파일을 지정된 디렉토리로 복사
+//        FileCopyUtils.copy(fileData, target); //target에 저장된 파일경로와 이름, 그리고 fileData(파일용량)을 복사
+//		
+//		
+//        System.out.println("target Path: "+target.getPath());
+//        
+//        String fileUrl = target.getAbsolutePath().replace(File.separatorChar,'/');
+//		fileUrl = fileUrl.substring(fileUrl.indexOf("/CafeBellus/Views"));
+//		System.out.println("fileUrl:"+fileUrl);
+//		
+//		
+//		return fileUrl;
+//	}
+	//pikicast 이미지 업로드
+	// pikiUploadPath : \\CafeBellus\\Views 개발 디렉토리의 업로드 경로 
+	// realPath : 톰켓이 만들어놓은 배포디렉토리 경로 
+	// D:\\springMVC\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\bellus
+	// realPath + pikiUploadPath = pikicast 이미지가 실제로 저장되는 경로
+	public static String pikiUpload(String pikiUploadPath, String realPath, String originalName, byte[] fileData) throws Exception
 	{
-		String uploadPath;
-		//만약 운영체제가 윈도우라면
-		if(File.separatorChar == '\\')
-		{
-			//배포경로가 달라지더라도 상관없음
-			ServletContext context = request.getSession().getServletContext();
-			uploadPath = context.getRealPath("/CafeBellus/Views/");
-		}
-		//윈도우가 아니라면 서버 리눅스 
-		else {
-			uploadPath = "/CafeBellus/Views/";
-		}
-		//http body
-		//업로드한 파일 이름
-		String fileName = uploadImage.getOriginalFilename();
-		//파일을 바이트 배열로 변환
-		byte[] fileData = uploadImage.getBytes();
 			
 		// uuid 발급, 랜덤한uuid를 만들어 uid에 저장
         UUID uid = UUID.randomUUID();
         
         //uuid를 추가한 파일 이름
-        String savedName = uid.toString() + "_" + fileName;
+        String savedName = uid.toString() + "_" + originalName;
         
         // 업로드할 디렉토리 생성 (월, 일 날짜별로 디렉토리를 만든다.)
         // calcPath는 년도, 월, 일이 출력되게하는 메소드이고, 밑에서 static으로 선언되었으므로 메모리에 제일 처음 올려져 있다.
         // calcpath에 업로드 경로를 매개값으로 줘서, 업로드한 날짜를 savedPath에 저장하고, target변수에 File
         
-        String savedPath = calcPath(uploadPath); //년월일로 만들어진 디렉토리경로
+        String savedPath = calcPath(realPath + pikiUploadPath); //년월일로 만들어진 디렉토리경로
         System.out.println("savedPath: "+savedPath);
-        File target = new File(uploadPath 
+        File target = new File(realPath + pikiUploadPath
                 + savedPath, savedName);    //업로드경로와 저장경로에 저장한파일의 이름에 대한 File 객체를 생성한다.
         
         // 임시 디렉토리에 업로드된 파일을 지정된 디렉토리로 복사
         FileCopyUtils.copy(fileData, target); //target에 저장된 파일경로와 이름, 그리고 fileData(파일용량)을 복사
 		
 		
-        System.out.println("target Path: "+target.getPath());
+        String uploadedFileName = makeIcon(realPath , pikiUploadPath, savedPath, savedName);
+    
         
-        String fileUrl = target.getAbsolutePath().replace(File.separatorChar,'/');
-		fileUrl = fileUrl.substring(fileUrl.indexOf("/CafeBellus/Views"));
-		System.out.println("fileUrl:"+fileUrl);
-		
-		
-		return fileUrl;
+        // /CafeBellus/views/2020/12/05/file명 이런식으로 반환
+		return uploadedFileName;
 	}
-	
+	// /CafeBellus/views/2020/12/05/file명 이런식으로 반환
+    private static String makeIcon(String realPath, String pikiUploadPath
+            , String calcPath, String fileName) throws Exception {
+
+        String iconName = realPath + pikiUploadPath + calcPath + File.separator 
+                + fileName;
+      
+ 
+        // File.separatorChar : 디렉토리 구분자
+        // 윈도우 \ , 유닉스(리눅스) /
+        return iconName.substring(realPath.length())
+                .replace(File.separatorChar, '/');
+        //파일 이름이라고 생각하면 된다.
+    }
 	
 	private static String calcPath(String uploadPath) {
         Calendar cal = Calendar.getInstance();
@@ -150,32 +196,3 @@ public class PikiUploadFileUtils {
 	
 
 
-//	//삭제
-//	//fileName에는 이미지 파일의 경우 원본 파일 이름이 넘어옴 /resources/img/2020/12/14/image이름.png 이런식으로 넘어옴
-//    static public void deleteFile(HttpServletRequest request, String filePath){
-//        
-//    	filePath = filePath.substring(15);
-//    	
-//        //확장자 검사
-//        String formatName=filePath.substring(
-//                filePath.lastIndexOf(".")+1);
-//        
-//        MediaType mType=MediaUtils.getMediaType(formatName);
-//        System.out.println("mType: "+mType);
-//        if(mType != null) { //이미지 파일이면 원본이미지 삭제
-//            //썸네일 이미지도 같이 지워줘야하므로 s_원본이미지 인것 삭제 
-//        	String first = filePath.substring(0,11);
-//    		String end = filePath.substring(11);
-//    		
-//        	String ThumbnailPath = first+"s_"+end; // /resources/img/2020/12/14/s_image이름.png 
-//        	System.out.println("Thumbnail : "+ThumbnailPath);
-//        	System.out.println("썸네일 전체 경로: "+request.getContextPath()+uploadPath+ThumbnailPath.replace('/',File.separatorChar));
-////         File.separatorChar : 유닉스 / 윈도우즈\\    
-//            new File(uploadPath+request.getContextPath()+ThumbnailPath.replace('/',File.separatorChar)).delete();
-//        }
-//        //원본 파일 삭제(이미지이면 썸네일 삭제)
-//        new File(uploadPath+request.getContextPath()+filePath.replace('/',File.separatorChar)).delete();
-//        
-//    }
-	
-//}
