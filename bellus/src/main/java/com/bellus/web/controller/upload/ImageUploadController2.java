@@ -3,6 +3,7 @@ package com.bellus.web.controller.upload;
 import java.io.File;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -42,15 +43,22 @@ public class ImageUploadController2 {
 		
 		//uploadPath는 Value 어노테이션을 사용해 가져온 값을 사용합니다.
 		String uploadPath;
-	        
+	    String realPath="";    
         //운영체제가 window이면 win.CKEditorUploadPath를 사용
         if(File.separatorChar == '\\')
         {
         	uploadPath = winCKEditorUploadPath;
+        	// 프로젝트의 실제 배포 경로를 가져온다. 
+  	      	// D:\\springMVC\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\bellus
+  			ServletContext context = request.getSession().getServletContext();
+  			realPath = context.getRealPath("/");
+  			System.out.println("realPath: "+realPath);
         }
         //운영체제가 Ubuntu이면 ubuntu.CKEditorUploadPath
         else { uploadPath = ubuntuCKEditorUploadPath; }
 		
+        uploadPath = realPath + uploadPath;
+        
 		//http header 설정 : 브라우저단의 인코딩 지정
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
@@ -62,8 +70,6 @@ public class ImageUploadController2 {
 		byte[] bytes = upload.getBytes();
 		//이미지를 업로드할 디렉토리(배포 경로로 설정한다.)
 		
-
-		
 		// 폴더만들고 /2020/12/05/file명 이런식으로 날라옴
 		String uploadedFileName = UploadFileUtils.uploadFile(uploadPath, fileName, bytes);
 		
@@ -74,7 +80,7 @@ public class ImageUploadController2 {
 		
 		if(File.separatorChar == '\\')
 		{
-			fileUrl = request.getContextPath()+"/resources/img"+uploadedFileName;
+			fileUrl = request.getContextPath()+winCKEditorUploadPath.replace(File.separatorChar, '/')+uploadedFileName;
 		}
 		//AWS 리눅스 서버에서는 /CafeBellus/CKEditor 경로에 이미지가 저장되므로 파일을 요청할때는 이 경로로 요청해야한다.
 		else {

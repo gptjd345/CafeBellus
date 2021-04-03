@@ -22,14 +22,14 @@ import com.bellus.web.model.board.dto.BoardDTO;
 import com.bellus.web.service.board.Pager;
 
 @Controller
-@RequestMapping("board/*")
+@RequestMapping("board*")
 public class BoardController {
 	
 	
 	@Inject
 	BoardService boardService ;
 	
-	@RequestMapping("list.do")
+	@RequestMapping(value={""})
 	public ModelAndView list(//RequestParam으로 현재 페이지, 옵션, 키워드의 기본값을 각각 설정해준다.
 	@RequestParam(defaultValue="1") int curPage,
 	@RequestParam(defaultValue="all") String search_option,

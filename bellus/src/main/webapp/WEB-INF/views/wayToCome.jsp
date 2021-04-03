@@ -12,7 +12,7 @@
 <!-- 카카오 지도 API -->
 <!-- 지도관련 -->
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ac21f622e3bd10ff191f04c4c22a6f79"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2616aabdd722b0973cb4421e9a6a6fdc"></script>
  <script type="text/javascript" src="/resources/js/wayToCome.js" defer></script>
 
 <title>Insert title here</title>

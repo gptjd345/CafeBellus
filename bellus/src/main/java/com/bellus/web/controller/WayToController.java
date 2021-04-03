@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class WayToController {
 	
-	@RequestMapping("/wayToCome.do")
+	@RequestMapping("/wayToCome")
 	public String main(Model model)
 	{
 		

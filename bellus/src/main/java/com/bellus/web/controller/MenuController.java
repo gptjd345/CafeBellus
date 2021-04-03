@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MenuController {
 
-	@RequestMapping("/menu.do")
+	@RequestMapping("/menu")
 	public String main(Model model)
 	{
 		model.addAttribute("message","홈페이지 방문을 환영합니다."); //변수명, 값을 세트로 model이라는 변수에 넣겠다!!

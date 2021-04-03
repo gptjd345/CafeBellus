@@ -22,7 +22,7 @@
 	});
 
 	function list(page){
-		location.href="${path}/board/list.do?curPage="+page
+		location.href="${path}/board?curPage="+page
 			+"&search_option=${map.search_option}"
 			+"&keyword=${map.keyword}";
 	
@@ -43,7 +43,7 @@
 			<h2>Bulletin board</h2>
 		</header>
 		
-		<form name="search-form" class="search-form" method="post" action="${path}/board/list.do">
+		<form name="search-form" class="search-form" method="get" action="${path}/board">
 			<select name="search_option">
 				<c:choose>
 					<c:when test="${map.search_option == 'all' }">

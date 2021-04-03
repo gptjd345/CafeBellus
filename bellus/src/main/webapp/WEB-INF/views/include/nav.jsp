@@ -11,10 +11,10 @@
                 <a href="/">Cafe Bellus</a>
             </div>
             <ul class="navbar__menu">
-                <li><a href="${path}/menu.do">Menu</a></li>
-                <li><a href="${path}/view/list.do">View</a></li>
-                <li><a href="${path}/board/list.do">Bulletin board</a></li>
-                <li><a href="${path}/wayToCome.do">Way to come</a></li>
+                <li><a href="${path}/menu">Menu</a></li>
+                <li><a href="${path}/view">View</a></li>
+                <li><a href="${path}/board">Bulletin board</a></li>
+                <li><a href="${path}/wayToCome">Way to come</a></li>
             </ul>
             <ul class="navbar__icons">
                 <li>

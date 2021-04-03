@@ -53,26 +53,27 @@ public class PikiUploadController {
 		}else {
 			
 			String pikiUploadPath;
-			
+			//이클립스로 실행하는 경우 배포디렉토리 경로에 로컬의 작업내용이 복사되어 실행되지만 
+			//리눅스 서버에서는 톰켓을 직접 실행시키는 방식이다보니 webapps 폴더 하위에 프로젝트명으로 폴더가 생김
+			//운영체제가 windows면 배포디렉토리경로, 리눅스면 빈문자열을 넣는다.
+			String realPath = "";
 			 //운영체제가 window이면 win.FileUploadPath를 사용
 	        if(File.separatorChar == '\\')
 	        {
 	        	pikiUploadPath = winPikiUploadPath;
+	        	// 프로젝트의 실제 배포 경로를 가져온다. 
+	  	      // D:\\springMVC\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\bellus
+	  			ServletContext context = request.getSession().getServletContext();
+	  			realPath = context.getRealPath("/");
+	  			System.out.println("realPath: "+realPath);
 	        }
 	        //운영체제가 Ubuntu이면 ubuntu.FileUploadPath
 	        else { pikiUploadPath = ubuntuPikiUploadPath; }
 	        
 	        
-	      // 프로젝트의 실제 배포 경로를 가져온다. 
-	      // D:\\springMVC\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\bellus
-			ServletContext context = request.getSession().getServletContext();
-			String realPath = context.getRealPath("/");
-			System.out.println("realPath: "+realPath);
-	        
-	        
 			//배포디렉토리에 이미지를 업로드 한다.
 			String filePath = 
-					PikiUploadFileUtils.pikiUpload(pikiUploadPath, realPath, uploadImage.getOriginalFilename(), uploadImage.getBytes());
+					PikiUploadFileUtils.pikiUpload( realPath, pikiUploadPath, uploadImage.getOriginalFilename(), uploadImage.getBytes());
 			//imagepath 저장
 			dto.setImagepath(filePath);
 			System.out.println("filePath: "+dto.getImagepath());
@@ -96,25 +97,30 @@ public class PikiUploadController {
 				throws Exception {
 		
 		String pikiUploadPath;
+		//이클립스로 실행하는 경우 배포디렉토리 경로에 로컬의 작업내용이 복사되어 실행되지만 
+		//리눅스 서버에서는 톰켓을 직접 실행시키는 방식이다보니 webapps 폴더 하위에 프로젝트명으로 폴더가 생김
+		//운영체제가 windows면 배포디렉토리경로, 리눅스면 빈문자열을 넣는다.
+		String realPath = "";
         
         //운영체제가 window이면 win.FileUploadPath를 사용
         if(File.separatorChar == '\\')
         {
         	pikiUploadPath = winPikiUploadPath;
+        	 // 프로젝트의 실제 배포 경로를 가져온다. 
+            // D:\\springMVC\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\bellus
+    		ServletContext context = request.getSession().getServletContext();
+    		realPath = context.getRealPath("/");
+    		System.out.println("realPath: "+realPath);
         }
         //운영체제가 Ubuntu이면 ubuntu.FileUploadPath
         else { pikiUploadPath = ubuntuPikiUploadPath; }
 		
-        // 프로젝트의 실제 배포 경로를 가져온다. 
-        // D:\\springMVC\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\bellus
-		ServletContext context = request.getSession().getServletContext();
-		String realPath = context.getRealPath("/");
-		System.out.println("realPath: "+realPath);
+       
         
 		//이미지 파일을 수정한경우 기존이미지는 배포디렉토리에서 삭제 
 		if(uploadImage.getSize() != 0)
 		{
-			String filePath = PikiUploadFileUtils.pikiUpload(pikiUploadPath, realPath, uploadImage.getOriginalFilename(), uploadImage.getBytes());
+			String filePath = PikiUploadFileUtils.pikiUpload( realPath, pikiUploadPath, uploadImage.getOriginalFilename(), uploadImage.getBytes());
 			ViewDTO prevDTO = viewService.detail(dto.getPnum());
 			String prevFilePath = prevDTO.getImagepath();
 			

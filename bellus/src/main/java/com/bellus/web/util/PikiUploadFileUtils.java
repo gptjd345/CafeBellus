@@ -81,7 +81,7 @@ public class PikiUploadFileUtils {
 	// realPath : 톰켓이 만들어놓은 배포디렉토리 경로 
 	// D:\\springMVC\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\bellus
 	// realPath + pikiUploadPath = pikicast 이미지가 실제로 저장되는 경로
-	public static String pikiUpload(String pikiUploadPath, String realPath, String originalName, byte[] fileData) throws Exception
+	public static String pikiUpload( String realPath, String pikiUploadPath , String originalName, byte[] fileData) throws Exception
 	{
 			
 		// uuid 발급, 랜덤한uuid를 만들어 uid에 저장

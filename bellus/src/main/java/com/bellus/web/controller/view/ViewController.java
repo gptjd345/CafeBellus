@@ -20,13 +20,13 @@ import com.bellus.web.service.view.ViewService;
 import com.bellus.web.util.PikiUploadFileUtils;
 
 @Controller
-@RequestMapping("view/*")
+@RequestMapping("view*")
 public class ViewController {
 	
 	@Inject
 	ViewService viewService ;
 	
-	@RequestMapping("list.do")
+	@RequestMapping("")
 	public ModelAndView view() throws Exception{
 		
 		// 피키캐스트 테이블의 모든 내용을 가져옴
