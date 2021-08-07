@@ -13,5 +13,10 @@ public class MainController {
 		model.addAttribute("message","홈페이지 방문을 환영합니다."); //변수명, 값을 세트로 model이라는 변수에 넣겠다!!
 		model.addAttribute("name","김정아.");
 		return "main";
-	}	
+	}
+	@RequestMapping("/menu2.do")
+	public String menu2()
+	{
+		return "menu2";
+	}
 }

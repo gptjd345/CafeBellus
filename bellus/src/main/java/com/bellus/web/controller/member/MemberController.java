@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -101,14 +102,22 @@ public class MemberController {
 	}
 	
 	//회원가입 처리를 해주는 POST 요청
+//	@Transactional(rollbackFor = {Exception.class})
 	@ResponseBody
-	@RequestMapping(value="signUp.do", method = RequestMethod.POST,produces = "application/json;charset=utf8")
-	public String signUpPost(@RequestBody MemberDTO dto) {
+	@RequestMapping(value="signUp.do", 
+		method = RequestMethod.POST,produces = "application/json;charset=utf8")
+	public String signUpPost(@RequestBody MemberDTO dto) throws Exception {
 		
-		//회원정보를 받아 테이블에 추가
-		memberService.insert(dto);
 		
-		System.out.println("dto Name: "+dto.getName());
+			//회원정보를 받아 테이블에 추가
+			memberService.insert(dto);
+			
+			//회원가입일자를 JOININFO 테이블에 저장한다. 2021-07-05
+			//트랜잭션 이슈가 발생하도록 유도 
+			//memberService.joinInfo(dto);
+			
+			System.out.println("dto Name: "+dto.getName());
+	
 		return "success";
 	}
 	

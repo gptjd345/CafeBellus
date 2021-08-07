@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 글쓰기 목록 보기 (쿼리끝에 세미콜론 빠졌는지 확인)-->
 	<select id="listAll"
 					resultType="com.bellus.web.model.board.dto.BoardDTO">
+
     <!-- 결과는 boardDTO타입이 된다. -->
  
         <include refid="paging_header" />

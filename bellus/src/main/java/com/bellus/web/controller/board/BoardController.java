@@ -29,6 +29,15 @@ public class BoardController {
 	@Inject
 	BoardService boardService ;
 	
+	
+	@RequestMapping("jeongA")
+	public @ResponseBody String jeongA(@RequestParam String id, @RequestParam String pw)
+	{
+		System.out.println("id = "+ id+", pw : "+pw);
+		return "success";
+	}
+	
+	
 	@RequestMapping(value={""})
 	public ModelAndView list(//RequestParam으로 현재 페이지, 옵션, 키워드의 기본값을 각각 설정해준다.
 	@RequestParam(defaultValue="1") int curPage,

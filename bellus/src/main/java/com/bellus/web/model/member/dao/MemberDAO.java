@@ -23,4 +23,8 @@ public interface MemberDAO {
 	
 	//비밀번호 업데이트
 	void update(MemberDTO dto);
+
+	//2021-07-05 트랜잭션 롤백이슈 확인을위한 메소드 
+	//회원 가입시 아이디와 가입일자 저장 JOININFO 테이블
+	void joinInfo(MemberDTO dto);
 }

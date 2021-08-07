@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bellus.web.model.member.dto.MemberDTO;
 import com.bellus.web.model.view.dto.ViewDTO;
 import com.bellus.web.service.view.ViewService;
 import com.bellus.web.util.PikiUploadFileUtils;
@@ -27,19 +30,21 @@ public class ViewController {
 	ViewService viewService ;
 	
 	@RequestMapping("")
-	public ModelAndView view() throws Exception{
-		
+	@ResponseBody
+	public MemberDTO view(@RequestBody MemberDTO memberDTO, ModelAndView mav) throws Exception{
+		System.out.println("memberDTO :"+memberDTO);
+//		System.out.println(req.getParameter("mberId"));
+//		System.out.println(req.getParameterMap());
 		// 피키캐스트 테이블의 모든 내용을 가져옴
 		List<ViewDTO> list = viewService.listAll();
 		System.out.println("list: "+ list);
 	
-		ModelAndView mav = new ModelAndView();
+//		8월 7일 테스트를 위한 수정 : ModelAndView mav = new ModelAndView();
 		
 		
 		mav.addObject("list",list); //변수명, 값을 세트로 model이라는 변수에 넣겠다!!
-		mav.setViewName("pikicast/view");
-		
-		return mav;
+		mav.addObject("memberDTO",memberDTO);
+		return memberDTO;
 	}
 	//이미지 추가 폼 가져오기
 	@RequestMapping("write.do")

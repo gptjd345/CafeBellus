@@ -66,6 +66,14 @@ public class MemberDAOImpl implements MemberDAO {
 		 sqlSession.selectOne("member.update",dto);
 		
 	}
+	
+	//2021-07-05 트랜잭션 롤백이슈 확인을위한 메소드 
+	//회원 가입시 아이디와 가입일자 저장 JOININFO 테이블
+	@Override
+	public void joinInfo(MemberDTO dto) {
+		sqlSession.selectOne("member.joinInfo",dto);
+		
+	}
 
 	
 

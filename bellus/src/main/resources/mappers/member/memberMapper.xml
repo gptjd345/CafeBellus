@@ -42,4 +42,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update member set passwd = #{passwd} where userid = #{userid}
 	</update>
 	
+	<!--  2021-07-05 트랜잭션 롤백이슈 확인을위한 메소드 -->
+	<!--  회원 가입시 아이디와 가입일자 저장 JOININFO 테이블 -->
+	<insert id="joinInfo">
+		insert into dsdsJOININFO (memberid) values ( #{userid} )
+	</insert>
+	
 </mapper>
